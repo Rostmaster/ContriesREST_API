@@ -1,0 +1,33 @@
+input{
+    border : 0;
+    border-bottom: 1px solid black;
+}
+
+input:focus{
+    outline: none;
+    background-color: lightgrey;
+}
+
+td{
+    padding: 10px;
+    text-align: start;
+    vertical-align: middle;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+.controls_section {
+    display: flex;
+    flex-direction: column;
+}
+
+#controls_wrapper {
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.add_update_info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

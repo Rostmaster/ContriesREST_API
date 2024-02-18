@@ -1,0 +1,92 @@
+{
+  "countries": [
+    {
+      "id": "1",
+      "name": "United States",
+      "capital": "Washington, D.C.",
+      "number_of_citizens": 331002651,
+      "continent": "North America",
+      "url_to_flag_picture": "https://example.com/flags/united-states.png"
+    },
+    {
+      "id": "2",
+      "name": "Canada",
+      "capital": "Ottawa",
+      "number_of_citizens": 37742154,
+      "continent": "North America",
+      "url_to_flag_picture": "https://example.com/flags/canada.png"
+    },
+    {
+      "id": "3",
+      "name": "France",
+      "capital": "Paris",
+      "number_of_citizens": 65273511,
+      "continent": "Europe",
+      "url_to_flag_picture": "https://example.com/flags/france.png"
+    },
+    {
+      "id": "4",
+      "name": "Japan",
+      "capital": "Tokyo",
+      "number_of_citizens": 126476461,
+      "continent": "Asia",
+      "url_to_flag_picture": "https://example.com/flags/japan.png"
+    },
+    {
+      "id": "5",
+      "name": "Australia",
+      "capital": "Canberra",
+      "number_of_citizens": 25499884,
+      "continent": "Oceania",
+      "url_to_flag_picture": "https://example.com/flags/australia.png"
+    },
+    {
+      "id": "6",
+      "name": "Brazil",
+      "capital": "Brasília",
+      "number_of_citizens": 212559417,
+      "continent": "South America",
+      "url_to_flag_picture": "https://example.com/flags/brazil.png"
+    },
+    {
+      "id": "7",
+      "name": "South Africa",
+      "capital": "Cape Town ",
+      "number_of_citizens": 59308690,
+      "continent": "Africa",
+      "url_to_flag_picture": "https://example.com/flags/south-africa.png"
+    },
+    {
+      "id": "8",
+      "name": "India",
+      "capital": "New Delhi",
+      "number_of_citizens": 1380004385,
+      "continent": "Asia",
+      "url_to_flag_picture": "https://example.com/flags/india.png"
+    },
+    {
+      "id": "9",
+      "name": "Russia",
+      "capital": "Moscow",
+      "number_of_citizens": 146793744,
+      "continent": "Europe",
+      "url_to_flag_picture": "https://example.com/flags/russia.png"
+    },
+    {
+      "id": "10",
+      "name": "United Kingdom",
+      "capital": "London",
+      "number_of_citizens": 67886011,
+      "continent": "Europe",
+      "url_to_flag_picture": "https://example.com/flags/united-kingdom.png"
+    },
+    {
+      "id": "b9e4",
+      "name": "Kazakhstan",
+      "capital": "Astana",
+      "number_of_citizens": 2,
+      "url_to_flag_picture": "https://example.com/flags/united-states.png",
+      "continent": "Euroasia"
+    }
+  ]
+}
