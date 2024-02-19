@@ -1,5 +1,54 @@
+import BF from "./buttonFunctions.js"
+
 export default class createElements {
 
+    constructor(server) { this.server = server }
+
+    //? Helper functions
+    renderTable = (countries, editCountry, addRow) => {
+        let templateDetails = {
+            countries: countries,
+            editCountry: editCountry,
+            addRow: addRow
+        }
+        $("#table_section").html(this.TABLE(templateDetails))
+    }
+
+    createCells = (count, element = "td") => {
+        let cells = []
+        for (let i = 0; i < count; i++) {
+            let cell = document.createElement(element)
+            cells.push(cell)
+        }
+        return cells
+
+    }
+
+    appendCells = (childs, parent, oneParent = true) => {
+        if (oneParent)
+            for (let i = 0; i < childs.length; i++) parent.appendChild(childs[i])
+        else
+            for (let i = 0; i < childs.length; i++) parent[i].appendChild(childs[i])
+
+    }
+
+    inputIinit = (Element, Type, Id, Value = "") => {
+        Element.id = Id
+        Element.type = Type
+        Element.value = Value
+        return Element
+    }
+
+    createBTN = (text, id, Class, func) => {
+        let upd_btn = document.createElement("button")
+        upd_btn.textContent = text
+        upd_btn.classList.add(Class)
+        upd_btn.id = id
+        upd_btn.onclick = func
+        return upd_btn
+    }
+
+    //? Global elements
     createTHEAD = () => {
         let thead = document.createElement("thead")
 
@@ -43,85 +92,107 @@ export default class createElements {
             row.id = `row-${country.id}`
         }
 
-        let td0 = document.createElement("td")
-        let td1 = document.createElement("td")
-        let td2 = document.createElement("td")
-        let td3 = document.createElement("td")
-        let td4 = document.createElement("td")
-        let td5 = document.createElement("td")
-        let td6 = document.createElement("td")
+        let td = this.createCells(7)
 
-        let input0 = document.createElement("input")
-        let input1 = document.createElement("input")
-        let input2 = document.createElement("input")
-        let input3 = document.createElement("input")
-        let input4 = document.createElement("input")
-        let input5 = document.createElement("input")
-        let btn6 = document.createElement("button")
+        let input = this.createCells(6, "input")
+
 
         if (country === null) {
-            input0.type = "text"
-            input1.type = "text"
-            input2.type = "text"
-            input3.type = "number"
-            input4.type = "text"
-            input5.type = "text"
+            input[0] = this.inputIinit(input[0], "text", "add-id")
+            input[1] = this.inputIinit(input[1], "text", "add-name")
+            input[2] = this.inputIinit(input[2], "text", "add-capital")
+            input[3] = this.inputIinit(input[3], "number", "add-number_of_citizens")
+            input[4] = this.inputIinit(input[4], "text", "add-continent")
+            input[5] = this.inputIinit(input[5], "text", "add-flag")
 
-            input0.id = `add-id`
-            input1.id = `add-name`
-            input2.id = `add-capital`
-            input3.id = `add-number_of_citizens`
-            input4.id = `add-continent`
-            input5.id = `add-flag`
+            let ADD = async () => {
 
-            btn6.textContent = "Add"
-            btn6.id = `add-btn`
+                let newCountry = {
+                    name: $("#add-name").val(),
+                    capital: $("#add-capital").val(),
+                    number_of_citizens: $("#add-number_of_citizens").val(),
+                    continent: $("#add-continent").val(),
+                    url_to_flag_picture: $("#add-flag").val()
+                }
+
+                await this.server.createCountry(newCountry)
+
+                this.renderTable(
+                    await this.server.getCountries(),
+                    null,
+                    false
+                )
+            }
+
+            let add_btn = this.createBTN("Add", `add-btn`, "add_btn", ADD)
+
+            let CLEAR = async () => {
+                this.renderTable(
+                    await this.server.getCountries(),
+                    null,
+                    true
+                )
+            }
+
+            let cancel_btn = this.createBTN("Clear", `clear-btn`, "clear_btn", CLEAR)
+
+            input = this.appendCells(input, td, false) //append inputs to cells
+
+            td[6].appendChild(add_btn)
+            td[6].appendChild(cancel_btn)
+
+            td = this.appendCells(td, row) //append cells to row
         }
 
         else {
-            input0.type = "text"
-            input1.type = "text"
-            input2.type = "text"
-            input3.type = "number"
-            input4.type = "text"
-            input5.type = "text"
 
-            input0.id = `update-id`
-            input1.id = `update-name`
-            input2.id = `update-capital`
-            input3.id = `update-number_of_citizens`
-            input4.id = `update-continent`
-            input5.id = `update-flag`
+            input[0] = this.inputIinit(input[0], "text", "update-id", country.id)
+            input[1] = this.inputIinit(input[1], "text", "update-name", country.name)
+            input[2] = this.inputIinit(input[2], "text", "update-capital", country.capital)
+            input[3] = this.inputIinit(input[3], "number", "update-number_of_citizens", country.number_of_citizens)
+            input[4] = this.inputIinit(input[4], "text", "update-continent", country.continent)
+            input[5] = this.inputIinit(input[5], "text", "update-flag", country.url_to_flag_picture)
 
-            input0.value = country.id
-            input1.value = country.name
-            input2.value = country.capital
-            input3.value = country.number_of_citizens
-            input4.value = country.continent
-            input5.value = country.url_to_flag_picture
+            let UPDATE = async () => {
+                let id = $("#update-id").val()
+                let updatedCountry = {
+                    name: $("#update-name").val(),
+                    capital: $("#update-capital").val(),
+                    number_of_citizens: $("#update-number_of_citizens").val(),
+                    continent: $("#update-continent").val(),
+                    url_to_flag_picture: $("#update-flag").val()
+                }
 
-            btn6.textContent = "Update"
-            btn6.id = `update-btn`
+                await this.server.updateCountry(id, updatedCountry)
+
+                this.renderTable(
+                    await this.server.getCountries(),
+                    null,
+                    true
+                )
+            }
+
+            let CANCEL = async () => {
+                this.renderTable(
+                    await this.server.getCountries(),
+                    null,
+                    true
+                )
+            }
+
+            let upd_btn = this.createBTN("✓", `add-btn`, "add_btn", UPDATE)
+            let cancel_btn = this.createBTN("✕", `cancel-btn`, "cancel_btn", CANCEL)
+
+            this.appendCells(input, td, false) //append inputs to cells
+
+            td[6].appendChild(upd_btn)
+            td[6].appendChild(cancel_btn)
+
+            this.appendCells(td, row) //append cells to row
+
         }
 
-        td0.appendChild(input0);
-        td1.appendChild(input1);
-        td2.appendChild(input2);
-        td3.appendChild(input3);
-        td4.appendChild(input4);
-        td5.appendChild(input5);
-        td6.appendChild(btn6)
-
-        row.appendChild(td0);
-        row.appendChild(td1);
-        row.appendChild(td2);
-        row.appendChild(td3);
-        row.appendChild(td4);
-        row.appendChild(td5);
-        row.appendChild(td6);
-
         return row
-
     }
 
     createTBODY = (countries, editCountry = null) => {
@@ -130,52 +201,56 @@ export default class createElements {
 
         for (let i = 0; i < countries.length; i++) {
 
+            //if there is a row to edit - draw it with inputs
             if (editCountry !== null && editCountry.id === countries[i].id) {
                 let tr = this.createADDrow(countries[i])
                 tbody.appendChild(tr)
             }
+
+            //else - draw it as normal row
             else {
                 let tr = document.createElement("tr")
-                tr.id = `row-${countries[i].id}`
+                let id = countries[i].id
 
-                let td0 = document.createElement("td")
-                let td1 = document.createElement("td")
-                let td2 = document.createElement("td")
-                let td3 = document.createElement("td")
-                let td4 = document.createElement("td")
-                let td5 = document.createElement("td")
-                let td6 = document.createElement("td")
+                //create cells
+                let td = this.createCells(7)
 
-                td0.textContent = countries[i].id
-                td1.textContent = countries[i].name
-                td2.textContent = countries[i].capital
-                td3.textContent = countries[i].number_of_citizens
-                td4.textContent = countries[i].continent
+                //init cells with values
+                td[0].textContent = countries[i].id
+                td[1].textContent = countries[i].name
+                td[2].textContent = countries[i].capital
+                td[3].textContent = countries[i].number_of_citizens
+                td[4].textContent = countries[i].continent
 
                 let img = document.createElement("img")
-                //img.src = countries[i].url_to_flag_picture
-                td5.appendChild(img)
+                img.src = countries[i].url_to_flag_picture
+                td[5].appendChild(img)
 
-                let upd_btn = document.createElement("button")
-                upd_btn.textContent = "🖊️"
-                upd_btn.id = `upd-${countries[i].id}`
-                upd_btn.classList.add("upd_btn")
-                td6.appendChild(upd_btn)
+                //init buttons
+                let EDIT = async () => {
+                    this.renderTable(
+                        await this.server.getCountries(),
+                        await this.server.getCountry(id),
+                        false
+                    )
+                }
+                let edit_btn = this.createBTN("🖊️", `edit-${id}`, "edit_btn", EDIT)
+                td[6].appendChild(edit_btn)
 
-                let del_btn = document.createElement("button")
-                del_btn.textContent = "❌"
-                del_btn.id = `del-${countries[i].id}`
-                del_btn.classList.add("del_btn")
-                td6.appendChild(del_btn)
+                let DELETE = async () => {
+                    await this.server.deleteCountry(id)
+                    this.renderTable(
+                        await this.server.getCountries(),
+                        await this.server.getCountry(id),
+                        false
+                    )
+                }
+                let del_btn = this.createBTN("❌", `del-${id}`, "del_btn", DELETE)
+                td[6].appendChild(del_btn)
 
+                //add cells to row
 
-                tr.appendChild(td0);
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                tr.appendChild(td4);
-                tr.appendChild(td5);
-                tr.appendChild(td6)
+                this.appendCells(td, tr)
 
                 tbody.appendChild(tr)
             }
@@ -185,8 +260,9 @@ export default class createElements {
         return tbody
     }
 
+    //? endpoint
     TABLE = (details) => {
-        
+
         let table = document.createElement("table")
         let thead = this.createTHEAD()
         let tbody = this.createTBODY(details.countries, details.editCountry)
@@ -198,8 +274,5 @@ export default class createElements {
 
         return table
     }
-    // countries: await server.getCountries(),
-    // editCountry: await server.getCountry(id),
-    // addRow:false
 
 }

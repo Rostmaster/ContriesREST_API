@@ -58,6 +58,14 @@ export default class API {
         return await fetch(this.url + `/${id}`)
             .then(res => {
                 if (res.ok) return res.json()
+                else if (res.status === 404) return {
+                    id: "THERE",
+                    name: "IS",
+                    capital: "NO",
+                    number_of_citizens: "SUCH",
+                    continent: "COUNTRY",
+                    url_to_flag_picture: "!"
+                }
                 console.log(`Get country ${id} responded as: `, res.statusText)
             })
             .then(country => {
@@ -68,7 +76,7 @@ export default class API {
 
     createCountry = async (country) => {
 
-        let validatedCountry = countryValidation(country)
+        let validatedCountry = this.countryValidation(country)
 
         let details = {
             method: "POST",
@@ -85,9 +93,9 @@ export default class API {
 
     updateCountry = async (id, country) => {
 
-        let currentInfo = await getCountry(id)
+        let currentInfo = await this.getCountry(id)
 
-        let validatedCountry = countryValidation(country, currentInfo)
+        let validatedCountry = this.countryValidation(country, currentInfo)
 
         let details = {
             method: "PATCH",
@@ -102,7 +110,7 @@ export default class API {
 
     replaceCountry = async (id, country) => {
 
-        let validatedCountry = countryValidation(country)
+        let validatedCountry = this.countryValidation(country)
 
         let details = {
             method: "PUT",
@@ -138,4 +146,4 @@ let server = new API("http://localhost:3000/countries")
 
 let country = server.getCountry(2)
 
-console.assert(country)
+console.log(country)
