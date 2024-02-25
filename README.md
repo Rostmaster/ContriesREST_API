@@ -44,7 +44,7 @@ ttp://localhost:3000/countries
     "name": "United States",
     "capital": "Washington, D.C.",
     "number_of_citizens": 331002651,
-    "area": 9833517
+    "continent": "America"
   }
   // ... more countries
 ]
